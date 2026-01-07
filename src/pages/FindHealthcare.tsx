@@ -4,7 +4,6 @@ import { Button } from '@/components/ui/button';
 import { 
   MapPin, 
   Search, 
-  Filter, 
   Star, 
   Clock, 
   Phone, 
@@ -12,7 +11,9 @@ import {
   Hospital,
   Pill,
   Stethoscope,
-  X
+  X,
+  ChevronRight,
+  ArrowRight
 } from 'lucide-react';
 
 const facilities = [
@@ -98,15 +99,24 @@ export default function FindHealthcare() {
 
   return (
     <Layout>
-      {/* Header */}
-      <section className="hero-gradient py-16">
-        <div className="section-container text-center text-primary-foreground">
-          <h1 className="font-display text-4xl md:text-5xl font-bold mb-4">
-            Find Healthcare Near You
+      {/* Hero */}
+      <section className="mayo-hero py-20">
+        <div className="section-container">
+          <h1 className="font-serif text-4xl md:text-5xl text-white mb-4 italic">
+            Find care near you
           </h1>
-          <p className="text-lg opacity-90 max-w-2xl mx-auto">
-            Locate hospitals, clinics, and pharmacies in your area with real-time availability and ratings.
+          <p className="text-white/80 text-lg max-w-2xl mb-8">
+            Locate hospitals, clinics, and pharmacies in your area with real-time availability and patient ratings.
           </p>
+          <div className="flex flex-wrap items-center gap-4">
+            <Button 
+              variant="outline" 
+              className="border-white text-white hover:bg-white hover:text-primary bg-transparent gap-2"
+            >
+              <Navigation className="h-4 w-4" />
+              Use my location
+            </Button>
+          </div>
         </div>
       </section>
 
@@ -114,7 +124,6 @@ export default function FindHealthcare() {
       <section className="py-8 bg-background border-b border-border sticky top-16 z-40">
         <div className="section-container">
           <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center">
-            {/* Search */}
             <div className="flex-1 relative w-full">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
               <input
@@ -122,60 +131,45 @@ export default function FindHealthcare() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search by name or location..."
-                className="w-full h-12 pl-12 pr-4 rounded-xl bg-muted border border-border focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all"
+                className="w-full h-12 pl-12 pr-4 rounded-lg bg-background border border-border focus:border-secondary focus:outline-none focus:ring-2 focus:ring-secondary/20 transition-all"
               />
             </div>
 
-            {/* Location Button */}
-            <Button variant="outline" className="gap-2">
-              <Navigation className="h-4 w-4" />
-              Use My Location
-            </Button>
-
-            {/* Filter Toggle */}
-            <Button variant="soft" className="gap-2">
-              <Filter className="h-4 w-4" />
-              Filters
-            </Button>
-          </div>
-
-          {/* Filter Pills */}
-          <div className="flex flex-wrap gap-3 mt-4">
-            {/* Type Filters */}
-            <div className="flex gap-2">
+            {/* Filter Pills */}
+            <div className="flex flex-wrap gap-2">
               {filterTypes.map((type) => (
                 <button
                   key={type}
                   onClick={() => setSelectedType(type)}
-                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all border ${
                     selectedType === type
-                      ? 'bg-primary text-primary-foreground'
-                      : 'bg-muted text-muted-foreground hover:bg-muted/80'
+                      ? 'bg-secondary text-secondary-foreground border-secondary'
+                      : 'bg-background text-muted-foreground border-border hover:border-secondary/50'
                   }`}
                 >
                   {type}
                 </button>
               ))}
             </div>
+          </div>
 
-            {/* Open Now Toggle */}
+          <div className="flex flex-wrap gap-3 mt-4">
             <button
               onClick={() => setShowOpenOnly(!showOpenOnly)}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-all flex items-center gap-2 ${
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-all border flex items-center gap-2 ${
                 showOpenOnly
-                  ? 'bg-success text-success-foreground'
-                  : 'bg-muted text-muted-foreground hover:bg-muted/80'
+                  ? 'bg-success text-success-foreground border-success'
+                  : 'bg-background text-muted-foreground border-border hover:border-success/50'
               }`}
             >
               <Clock className="h-4 w-4" />
               Open Now
             </button>
 
-            {/* Rating Filter */}
             <select
               value={minRating}
               onChange={(e) => setMinRating(Number(e.target.value))}
-              className="px-4 py-2 rounded-full text-sm font-medium bg-muted text-muted-foreground border-0 focus:ring-2 focus:ring-primary"
+              className="px-4 py-2 rounded-full text-sm font-medium bg-background text-foreground border border-border focus:ring-2 focus:ring-secondary/20 focus:border-secondary"
             >
               <option value={0}>Any Rating</option>
               <option value={3}>3+ Stars</option>
@@ -183,7 +177,6 @@ export default function FindHealthcare() {
               <option value={4.5}>4.5+ Stars</option>
             </select>
 
-            {/* Clear Filters */}
             {(selectedType !== 'All' || showOpenOnly || minRating > 0) && (
               <button
                 onClick={() => {
@@ -191,10 +184,10 @@ export default function FindHealthcare() {
                   setShowOpenOnly(false);
                   setMinRating(0);
                 }}
-                className="px-4 py-2 rounded-full text-sm font-medium text-destructive hover:bg-destructive-light transition-all flex items-center gap-1"
+                className="px-4 py-2 rounded-full text-sm font-medium text-destructive hover:bg-destructive/10 transition-all flex items-center gap-1"
               >
                 <X className="h-4 w-4" />
-                Clear
+                Clear filters
               </button>
             )}
           </div>
@@ -204,7 +197,7 @@ export default function FindHealthcare() {
       {/* Results */}
       <section className="py-12 bg-background">
         <div className="section-container">
-          <div className="flex justify-between items-center mb-6">
+          <div className="flex justify-between items-center mb-8">
             <p className="text-muted-foreground">
               Showing <span className="font-semibold text-foreground">{filteredFacilities.length}</span> facilities
             </p>
@@ -216,19 +209,19 @@ export default function FindHealthcare() {
               return (
                 <div
                   key={facility.id}
-                  className="bg-card rounded-2xl border border-border overflow-hidden shadow-card hover:shadow-card-hover transition-all group"
+                  className="bg-card rounded-lg border border-border overflow-hidden hover:border-secondary/30 transition-all group"
                 >
                   <div className="relative h-48 overflow-hidden">
                     <img
                       src={facility.image}
                       alt={facility.name}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                     <div className="absolute top-4 left-4">
                       <span className={`px-3 py-1 rounded-full text-xs font-medium ${
                         facility.isOpen 
                           ? 'bg-success text-success-foreground' 
-                          : 'bg-destructive text-destructive-foreground'
+                          : 'bg-muted text-muted-foreground'
                       }`}>
                         {facility.isOpen ? 'Open Now' : 'Closed'}
                       </span>
@@ -243,19 +236,21 @@ export default function FindHealthcare() {
                   <div className="p-6">
                     <div className="flex items-start justify-between mb-3">
                       <div className="flex items-center gap-2">
-                        <div className="p-2 rounded-lg bg-primary/10">
-                          <TypeIcon className="h-4 w-4 text-primary" />
+                        <div className="p-2 rounded-lg bg-secondary/10">
+                          <TypeIcon className="h-4 w-4 text-secondary" />
                         </div>
                         <span className="text-sm text-muted-foreground">{facility.type}</span>
                       </div>
                       <div className="flex items-center gap-1">
                         <Star className="h-4 w-4 fill-secondary text-secondary" />
-                        <span className="font-semibold">{facility.rating}</span>
+                        <span className="font-medium">{facility.rating}</span>
                         <span className="text-sm text-muted-foreground">({facility.reviews})</span>
                       </div>
                     </div>
 
-                    <h3 className="font-display font-semibold text-lg mb-2">{facility.name}</h3>
+                    <h3 className="font-serif text-xl mb-2 group-hover:text-secondary transition-colors">
+                      {facility.name}
+                    </h3>
                     
                     <p className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
                       <MapPin className="h-4 w-4" />
@@ -299,24 +294,23 @@ export default function FindHealthcare() {
               <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-muted flex items-center justify-center">
                 <Hospital className="h-8 w-8 text-muted-foreground" />
               </div>
-              <h3 className="font-display font-semibold text-lg mb-2">No facilities found</h3>
+              <h3 className="font-serif text-xl mb-2">No facilities found</h3>
               <p className="text-muted-foreground">Try adjusting your search or filters</p>
             </div>
           )}
         </div>
       </section>
 
-      {/* Map Placeholder */}
-      <section className="py-12 bg-muted">
+      {/* CTA */}
+      <section className="py-16 bg-muted">
         <div className="section-container">
-          <div className="bg-card rounded-2xl border border-border p-8 text-center">
-            <MapPin className="h-12 w-12 text-primary mx-auto mb-4" />
-            <h3 className="font-display font-semibold text-lg mb-2">Interactive Map</h3>
-            <p className="text-muted-foreground mb-4">
-              View all healthcare facilities on an interactive map
-            </p>
-            <Button variant="default">
-              Open Map View
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6 p-8 bg-card rounded-lg border border-border">
+            <div>
+              <h2 className="font-serif text-2xl mb-2">Can't find what you're looking for?</h2>
+              <p className="text-muted-foreground">Contact us and we'll help you find the right care.</p>
+            </div>
+            <Button className="gap-2">
+              Contact us <ArrowRight className="h-4 w-4" />
             </Button>
           </div>
         </div>

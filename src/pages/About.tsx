@@ -6,19 +6,18 @@ import {
   Target, 
   Users, 
   Globe,
-  CheckCircle,
   ArrowRight,
   Lightbulb,
   Shield,
   Zap,
-  Award
+  ChevronRight
 } from 'lucide-react';
 
 const stats = [
-  { value: '50,000+', label: 'Users Helped', icon: Users },
-  { value: '1,000+', label: 'Healthcare Partners', icon: Heart },
-  { value: '500+', label: 'Volunteer Doctors', icon: Shield },
-  { value: '100+', label: 'Cities Covered', icon: Globe },
+  { value: '50,000+', label: 'Users Helped' },
+  { value: '1,000+', label: 'Healthcare Partners' },
+  { value: '500+', label: 'Volunteer Doctors' },
+  { value: '100+', label: 'Cities Covered' },
 ];
 
 const problems = [
@@ -79,28 +78,34 @@ export default function About() {
   return (
     <Layout>
       {/* Hero */}
-      <section className="hero-gradient py-20">
-        <div className="section-container text-center text-primary-foreground">
-          <span className="inline-block px-4 py-2 rounded-full bg-primary-foreground/20 text-sm font-medium mb-6">
-            Your Wellness, Our Mission
-          </span>
-          <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold mb-6 max-w-4xl mx-auto">
-            Making Healthcare <span className="text-secondary-light">Accessible</span> for Everyone
+      <section className="mayo-hero py-24">
+        <div className="section-container">
+          <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl text-white mb-6 italic max-w-4xl">
+            Making healthcare accessible for everyone
           </h1>
-          <p className="text-lg md:text-xl opacity-90 max-w-2xl mx-auto">
-            HealthConnect is designed to make healthcare easier and more accessible. Whether you're looking for nearby hospitals, reliable home remedies, or expert advice — we're here to help.
+          <p className="text-white/80 text-lg md:text-xl max-w-2xl mb-8">
+            HealthConnect is designed to bridge the healthcare gap. Whether you're looking for nearby hospitals, reliable home remedies, or expert advice — we're here to help.
           </p>
+          <div className="flex flex-wrap gap-4">
+            <Link to="/consult" className="inline-flex items-center gap-2 text-white hover:gap-3 transition-all">
+              <span className="text-lg">Learn how we work</span>
+              <ChevronRight className="h-5 w-5" />
+            </Link>
+          </div>
         </div>
       </section>
 
       {/* Stats */}
-      <section className="py-12 bg-background -mt-8 relative z-10">
+      <section className="py-12 bg-background">
         <div className="section-container">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {stats.map((stat) => (
-              <div key={stat.label} className="bg-card rounded-2xl p-6 border border-border shadow-card text-center">
-                <stat.icon className="h-8 w-8 text-primary mx-auto mb-3" />
-                <div className="text-3xl font-display font-bold text-primary mb-1">{stat.value}</div>
+            {stats.map((stat, index) => (
+              <div 
+                key={stat.label} 
+                className="text-center p-6 animate-slide-up"
+                style={{ animationDelay: `${index * 0.1}s` }}
+              >
+                <div className="text-3xl md:text-4xl font-serif text-secondary mb-1">{stat.value}</div>
                 <div className="text-sm text-muted-foreground">{stat.label}</div>
               </div>
             ))}
@@ -109,15 +114,13 @@ export default function About() {
       </section>
 
       {/* Mission */}
-      <section className="py-20 bg-background">
+      <section className="py-20 bg-muted">
         <div className="section-container">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
-              <span className="inline-block px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
-                Our Mission
-              </span>
-              <h2 className="font-display text-3xl md:text-4xl font-bold mb-6">
-                Bridging the Healthcare Gap
+              <span className="text-xs font-semibold text-secondary uppercase tracking-wider">Our Mission</span>
+              <h2 className="font-serif text-3xl md:text-4xl mt-2 mb-6">
+                Bridging the healthcare gap
               </h2>
               <p className="text-muted-foreground mb-6 leading-relaxed">
                 Millions of people in rural areas and urban slums lack access to basic healthcare due to limited infrastructure, shortage of medical professionals, and cultural barriers. 
@@ -125,26 +128,19 @@ export default function About() {
               <p className="text-muted-foreground mb-8 leading-relaxed">
                 HealthConnect aims to bridge this gap by providing digital access to healthcare resources, connecting people with medical volunteers and doctors, and empowering communities with self-care knowledge.
               </p>
-              <div className="flex gap-4">
-                <Button variant="hero" asChild>
-                  <Link to="/consult">
-                    Get Started <ArrowRight className="h-4 w-4 ml-2" />
-                  </Link>
-                </Button>
-              </div>
+              <Button asChild>
+                <Link to="/consult" className="gap-2">
+                  Get started <ArrowRight className="h-4 w-4" />
+                </Link>
+              </Button>
             </div>
             <div className="relative">
-              <div className="aspect-square rounded-3xl bg-gradient-to-br from-primary/10 to-accent/10 p-8">
-                <div className="w-full h-full rounded-2xl bg-card shadow-xl flex items-center justify-center overflow-hidden">
-                  <img 
-                    src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=500&h=500&fit=crop" 
-                    alt="Healthcare"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-              </div>
-              <div className="absolute -bottom-6 -left-6 p-4 rounded-2xl bg-success text-success-foreground shadow-lg">
-                <Target className="h-8 w-8" />
+              <div className="aspect-[4/3] rounded-lg overflow-hidden">
+                <img 
+                  src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=600&h=450&fit=crop" 
+                  alt="Healthcare"
+                  className="w-full h-full object-cover"
+                />
               </div>
             </div>
           </div>
@@ -152,23 +148,23 @@ export default function About() {
       </section>
 
       {/* Problem Statement */}
-      <section className="py-20 bg-destructive-light">
+      <section className="py-20 bg-background">
         <div className="section-container">
           <div className="max-w-3xl mx-auto text-center mb-12">
-            <h2 className="font-display text-3xl md:text-4xl font-bold mb-4">
-              The Problem We're Solving
+            <h2 className="font-serif text-3xl md:text-4xl mb-4">
+              The problem we're solving
             </h2>
             <p className="text-muted-foreground">
               Millions lack access to basic healthcare due to systemic challenges
             </p>
           </div>
           <div className="max-w-2xl mx-auto">
-            <div className="bg-card rounded-2xl p-8 border border-border shadow-lg">
+            <div className="bg-card rounded-lg p-8 border border-border">
               <ul className="space-y-4">
                 {problems.map((problem, index) => (
-                  <li key={index} className="flex items-start gap-3">
-                    <div className="w-6 h-6 rounded-full bg-destructive text-destructive-foreground flex items-center justify-center shrink-0 mt-0.5">
-                      <span className="text-xs font-bold">{index + 1}</span>
+                  <li key={index} className="flex items-start gap-3 animate-slide-up" style={{ animationDelay: `${index * 0.1}s` }}>
+                    <div className="w-6 h-6 rounded-full border-2 border-secondary text-secondary flex items-center justify-center shrink-0 mt-0.5 text-xs font-semibold">
+                      {index + 1}
                     </div>
                     <span className="text-foreground">{problem}</span>
                   </li>
@@ -180,14 +176,12 @@ export default function About() {
       </section>
 
       {/* Our Solution */}
-      <section className="py-20 bg-background">
+      <section className="py-20 bg-muted">
         <div className="section-container">
           <div className="max-w-3xl mx-auto text-center mb-12">
-            <span className="inline-block px-3 py-1 rounded-full bg-success/10 text-success text-sm font-medium mb-4">
-              Our Solution
-            </span>
-            <h2 className="font-display text-3xl md:text-4xl font-bold mb-4">
-              How We're Making a Difference
+            <span className="text-xs font-semibold text-secondary uppercase tracking-wider">Our Solution</span>
+            <h2 className="font-serif text-3xl md:text-4xl mt-2 mb-4">
+              How we're making a difference
             </h2>
             <p className="text-muted-foreground">
               Technology-driven solutions to bridge the healthcare accessibility gap
@@ -195,12 +189,16 @@ export default function About() {
           </div>
 
           <div className="grid md:grid-cols-2 gap-6">
-            {solutions.map((solution) => (
-              <div key={solution.title} className="feature-card">
-                <div className="w-12 h-12 rounded-xl bg-success text-success-foreground flex items-center justify-center mb-4">
+            {solutions.map((solution, index) => (
+              <div 
+                key={solution.title} 
+                className="bg-card rounded-lg p-6 border border-border hover:border-secondary/30 transition-all animate-slide-up"
+                style={{ animationDelay: `${index * 0.1}s` }}
+              >
+                <div className="w-12 h-12 rounded-full border-2 border-secondary/60 text-secondary flex items-center justify-center mb-4">
                   <solution.icon className="h-6 w-6" />
                 </div>
-                <h3 className="font-display font-semibold text-lg mb-2">{solution.title}</h3>
+                <h3 className="font-serif text-xl mb-2">{solution.title}</h3>
                 <p className="text-muted-foreground">{solution.description}</p>
               </div>
             ))}
@@ -209,11 +207,11 @@ export default function About() {
       </section>
 
       {/* Our Values */}
-      <section className="py-20 soft-gradient">
+      <section className="py-20 bg-background">
         <div className="section-container">
           <div className="max-w-3xl mx-auto text-center mb-12">
-            <h2 className="font-display text-3xl md:text-4xl font-bold mb-4">
-              Our Core Values
+            <h2 className="font-serif text-3xl md:text-4xl mb-4">
+              Our core values
             </h2>
             <p className="text-muted-foreground">
               The principles that guide everything we do
@@ -221,12 +219,16 @@ export default function About() {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {values.map((value) => (
-              <div key={value.title} className="bg-card rounded-2xl p-6 border border-border shadow-card text-center">
-                <div className="w-14 h-14 mx-auto mb-4 rounded-2xl bg-primary/10 flex items-center justify-center">
-                  <value.icon className="h-7 w-7 text-primary" />
+            {values.map((value, index) => (
+              <div 
+                key={value.title} 
+                className="text-center p-6 animate-slide-up"
+                style={{ animationDelay: `${index * 0.1}s` }}
+              >
+                <div className="w-14 h-14 mx-auto mb-4 rounded-full border-2 border-secondary/60 text-secondary flex items-center justify-center">
+                  <value.icon className="h-7 w-7" />
                 </div>
-                <h3 className="font-display font-semibold text-lg mb-2">{value.title}</h3>
+                <h3 className="font-serif text-lg mb-2">{value.title}</h3>
                 <p className="text-muted-foreground text-sm">{value.description}</p>
               </div>
             ))}
@@ -235,23 +237,33 @@ export default function About() {
       </section>
 
       {/* CTA */}
-      <section className="py-20 hero-gradient">
-        <div className="section-container text-center text-primary-foreground">
-          <h2 className="font-display text-3xl md:text-4xl font-bold mb-4">
-            Join Us in Our Mission
+      <section className="py-20 bg-primary text-primary-foreground">
+        <div className="section-container text-center">
+          <h2 className="font-serif text-3xl md:text-4xl mb-4 italic">
+            Join us in our mission
           </h2>
           <p className="text-lg opacity-90 max-w-2xl mx-auto mb-8">
             Whether you're seeking healthcare or want to contribute as a volunteer, we welcome you to be part of the HealthConnect community.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button variant="hero" size="xl" asChild>
+            <Button 
+              variant="secondary" 
+              size="lg"
+              className="bg-white text-primary hover:bg-white/90"
+              asChild
+            >
               <Link to="/find-healthcare">
-                Find Healthcare
+                Find healthcare
               </Link>
             </Button>
-            <Button variant="outline" size="xl" className="border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary" asChild>
+            <Button 
+              variant="outline" 
+              size="lg"
+              className="border-white text-white hover:bg-white/10 bg-transparent"
+              asChild
+            >
               <Link to="/contact">
-                Become a Volunteer
+                Become a volunteer
               </Link>
             </Button>
           </div>
