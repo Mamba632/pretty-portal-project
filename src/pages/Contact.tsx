@@ -8,25 +8,26 @@ import {
   Send,
   MessageCircle,
   Clock,
-  CheckCircle
+  CheckCircle,
+  ChevronRight
 } from 'lucide-react';
 
 const contactInfo = [
   {
     icon: Mail,
-    title: 'Email Us',
+    title: 'Email',
     value: 'support@healthconnect.com',
     description: 'We\'ll respond within 24 hours',
   },
   {
     icon: Phone,
-    title: 'Call Us',
+    title: 'Phone',
     value: '+91 98765 43210',
     description: 'Mon-Sat, 9am-6pm IST',
   },
   {
     icon: MapPin,
-    title: 'Visit Us',
+    title: 'Address',
     value: 'Healthcare Innovation Hub',
     description: 'New Delhi, India',
   },
@@ -64,7 +65,6 @@ export default function Contact() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission
     console.log('Form submitted:', formData);
     setIsSubmitted(true);
     setTimeout(() => setIsSubmitted(false), 3000);
@@ -76,28 +76,38 @@ export default function Contact() {
 
   return (
     <Layout>
-      {/* Header */}
-      <section className="hero-gradient py-16">
-        <div className="section-container text-center text-primary-foreground">
-          <h1 className="font-display text-4xl md:text-5xl font-bold mb-4">
-            Contact Us
+      {/* Hero */}
+      <section className="mayo-hero py-20">
+        <div className="section-container">
+          <h1 className="font-serif text-4xl md:text-5xl text-white mb-4 italic">
+            Giving to HealthConnect
           </h1>
-          <p className="text-lg opacity-90 max-w-2xl mx-auto">
-            Have questions, feedback, or need support? We're here to help. Reach out to us anytime.
+          <p className="text-white/80 text-lg max-w-2xl mb-8">
+            Have questions, feedback, or want to support our mission? We're here to help. Reach out to us anytime.
           </p>
+          <div className="flex flex-wrap items-center gap-4">
+            <a href="#contact-form" className="inline-flex items-center gap-2 text-white hover:gap-3 transition-all">
+              <span className="text-lg">Contact us</span>
+              <ChevronRight className="h-5 w-5" />
+            </a>
+          </div>
         </div>
       </section>
 
       {/* Contact Info Cards */}
       <section className="py-12 bg-background">
         <div className="section-container">
-          <div className="grid md:grid-cols-3 gap-6 -mt-20 relative z-10">
-            {contactInfo.map((info) => (
-              <div key={info.title} className="bg-card rounded-2xl p-6 border border-border shadow-lg text-center">
-                <div className="w-14 h-14 mx-auto mb-4 rounded-2xl bg-primary text-primary-foreground flex items-center justify-center">
-                  <info.icon className="h-7 w-7" />
+          <div className="grid md:grid-cols-3 gap-6">
+            {contactInfo.map((info, index) => (
+              <div 
+                key={info.title} 
+                className="p-6 bg-card rounded-lg border border-border text-center animate-slide-up"
+                style={{ animationDelay: `${index * 0.1}s` }}
+              >
+                <div className="w-12 h-12 mx-auto mb-4 rounded-full border-2 border-secondary/60 text-secondary flex items-center justify-center">
+                  <info.icon className="h-6 w-6" />
                 </div>
-                <h3 className="font-display font-semibold text-lg mb-1">{info.title}</h3>
+                <h3 className="font-serif text-lg mb-1">{info.title}</h3>
                 <p className="text-foreground font-medium mb-1">{info.value}</p>
                 <p className="text-sm text-muted-foreground">{info.description}</p>
               </div>
@@ -106,23 +116,23 @@ export default function Contact() {
         </div>
       </section>
 
-      {/* Contact Form & Info */}
-      <section className="py-12 bg-background">
+      {/* Contact Form & FAQs */}
+      <section id="contact-form" className="py-16 bg-muted">
         <div className="section-container">
           <div className="grid lg:grid-cols-2 gap-12">
             {/* Form */}
-            <div className="bg-card rounded-3xl p-8 border border-border shadow-lg">
-              <h2 className="font-display text-2xl font-bold mb-2">Send us a Message</h2>
+            <div className="bg-card rounded-lg p-8 border border-border">
+              <h2 className="font-serif text-2xl mb-2">Send us a message</h2>
               <p className="text-muted-foreground mb-6">
                 Fill out the form below and we'll get back to you as soon as possible.
               </p>
 
               {isSubmitted ? (
                 <div className="py-16 text-center">
-                  <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-success text-success-foreground flex items-center justify-center">
+                  <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-success/10 text-success flex items-center justify-center">
                     <CheckCircle className="h-8 w-8" />
                   </div>
-                  <h3 className="font-display font-semibold text-lg mb-2">Message Sent!</h3>
+                  <h3 className="font-serif text-xl mb-2">Message sent!</h3>
                   <p className="text-muted-foreground">Thank you for reaching out. We'll respond within 24 hours.</p>
                 </div>
               ) : (
@@ -136,7 +146,7 @@ export default function Contact() {
                         value={formData.name}
                         onChange={handleChange}
                         required
-                        className="w-full h-12 px-4 rounded-xl bg-muted border border-border focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+                        className="w-full h-12 px-4 rounded-lg bg-background border border-border focus:border-secondary focus:outline-none focus:ring-2 focus:ring-secondary/20"
                         placeholder="Your name"
                       />
                     </div>
@@ -148,7 +158,7 @@ export default function Contact() {
                         value={formData.email}
                         onChange={handleChange}
                         required
-                        className="w-full h-12 px-4 rounded-xl bg-muted border border-border focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+                        className="w-full h-12 px-4 rounded-lg bg-background border border-border focus:border-secondary focus:outline-none focus:ring-2 focus:ring-secondary/20"
                         placeholder="your@email.com"
                       />
                     </div>
@@ -162,7 +172,7 @@ export default function Contact() {
                         name="phone"
                         value={formData.phone}
                         onChange={handleChange}
-                        className="w-full h-12 px-4 rounded-xl bg-muted border border-border focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+                        className="w-full h-12 px-4 rounded-lg bg-background border border-border focus:border-secondary focus:outline-none focus:ring-2 focus:ring-secondary/20"
                         placeholder="+91 98765 43210"
                       />
                     </div>
@@ -173,7 +183,7 @@ export default function Contact() {
                         value={formData.country}
                         onChange={handleChange}
                         required
-                        className="w-full h-12 px-4 rounded-xl bg-muted border border-border focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+                        className="w-full h-12 px-4 rounded-lg bg-background border border-border focus:border-secondary focus:outline-none focus:ring-2 focus:ring-secondary/20"
                       >
                         <option value="">Select your country</option>
                         <option value="India">India</option>
@@ -194,7 +204,7 @@ export default function Contact() {
                       value={formData.subject}
                       onChange={handleChange}
                       required
-                      className="w-full h-12 px-4 rounded-xl bg-muted border border-border focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+                      className="w-full h-12 px-4 rounded-lg bg-background border border-border focus:border-secondary focus:outline-none focus:ring-2 focus:ring-secondary/20"
                       placeholder="How can we help?"
                     />
                   </div>
@@ -207,14 +217,14 @@ export default function Contact() {
                       onChange={handleChange}
                       required
                       rows={5}
-                      className="w-full px-4 py-3 rounded-xl bg-muted border border-border focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 resize-none"
+                      className="w-full px-4 py-3 rounded-lg bg-background border border-border focus:border-secondary focus:outline-none focus:ring-2 focus:ring-secondary/20 resize-none"
                       placeholder="Tell us more about your inquiry..."
                     />
                   </div>
 
-                  <Button type="submit" variant="hero" size="lg" className="w-full gap-2">
+                  <Button type="submit" size="lg" className="w-full gap-2">
                     <Send className="h-5 w-5" />
-                    Send Message
+                    Send message
                   </Button>
                 </form>
               )}
@@ -222,12 +232,16 @@ export default function Contact() {
 
             {/* FAQs */}
             <div>
-              <h2 className="font-display text-2xl font-bold mb-6">Frequently Asked Questions</h2>
+              <h2 className="font-serif text-2xl mb-6">Frequently asked questions</h2>
               <div className="space-y-4">
                 {faqs.map((faq, index) => (
-                  <div key={index} className="bg-card rounded-2xl p-6 border border-border">
-                    <h3 className="font-semibold mb-2 flex items-start gap-3">
-                      <MessageCircle className="h-5 w-5 text-primary mt-0.5 shrink-0" />
+                  <div 
+                    key={index} 
+                    className="bg-card rounded-lg p-6 border border-border animate-slide-up"
+                    style={{ animationDelay: `${index * 0.1}s` }}
+                  >
+                    <h3 className="font-medium mb-2 flex items-start gap-3">
+                      <MessageCircle className="h-5 w-5 text-secondary mt-0.5 shrink-0" />
                       {faq.question}
                     </h3>
                     <p className="text-muted-foreground text-sm pl-8">{faq.answer}</p>
@@ -236,10 +250,10 @@ export default function Contact() {
               </div>
 
               {/* Support Hours */}
-              <div className="mt-8 p-6 rounded-2xl bg-primary/5 border border-primary/20">
+              <div className="mt-8 p-6 rounded-lg bg-card border border-border">
                 <div className="flex items-center gap-3 mb-4">
-                  <Clock className="h-6 w-6 text-primary" />
-                  <h3 className="font-display font-semibold">Support Hours</h3>
+                  <Clock className="h-5 w-5 text-secondary" />
+                  <h3 className="font-serif text-lg">Support hours</h3>
                 </div>
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between">
@@ -252,7 +266,7 @@ export default function Contact() {
                   </div>
                   <div className="flex justify-between pt-2 border-t border-border mt-2">
                     <span className="text-muted-foreground">Emergency Support</span>
-                    <span className="font-medium text-destructive">24/7 Available</span>
+                    <span className="font-medium text-success">24/7 Available</span>
                   </div>
                 </div>
               </div>

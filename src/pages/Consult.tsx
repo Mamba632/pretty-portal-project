@@ -14,9 +14,8 @@ import {
   MapPin,
   Clock,
   Star,
-  ArrowRight,
-  Stethoscope,
-  HeartPulse
+  ChevronRight,
+  Stethoscope
 } from 'lucide-react';
 
 const doctors = [
@@ -56,6 +55,30 @@ const chatMessages = [
   { role: 'bot', message: 'Hello! I\'m your AI health assistant. How can I help you today? You can describe your symptoms and I\'ll provide initial guidance.' },
 ];
 
+const consultOptions = [
+  {
+    icon: Bot,
+    title: 'AI Health Assistant',
+    description: 'Get instant guidance on symptoms with our AI-powered chatbot',
+    action: 'Start chat',
+    href: '#ai-chat',
+  },
+  {
+    icon: Users,
+    title: 'Volunteer Support',
+    description: 'Connect with trained medical volunteers for personalized help',
+    action: 'Connect now',
+    href: '#',
+  },
+  {
+    icon: Video,
+    title: 'Video Consultation',
+    description: 'Schedule a secure video call with certified doctors',
+    action: 'Book appointment',
+    href: '#doctors',
+  },
+];
+
 export default function Consult() {
   const [messages, setMessages] = useState(chatMessages);
   const [inputMessage, setInputMessage] = useState('');
@@ -65,17 +88,15 @@ export default function Consult() {
     e.preventDefault();
     if (!inputMessage.trim()) return;
 
-    // Add user message
     const userMessage = { role: 'user', message: inputMessage };
     setMessages([...messages, userMessage]);
     setInputMessage('');
     setIsTyping(true);
 
-    // Simulate AI response
     setTimeout(() => {
       const botResponse = {
         role: 'bot',
-        message: 'Based on your symptoms, I recommend staying hydrated and getting plenty of rest. If symptoms persist for more than 3 days, please consult with a doctor. Would you like me to connect you with a volunteer or doctor for further assistance?'
+        message: 'Based on your symptoms, I recommend staying hydrated and getting plenty of rest. If symptoms persist for more than 3 days, please consult with a doctor. Would you like me to connect you with a healthcare professional?'
       };
       setMessages(prev => [...prev, botResponse]);
       setIsTyping(false);
@@ -84,102 +105,90 @@ export default function Consult() {
 
   return (
     <Layout>
-      {/* Header */}
-      <section className="hero-gradient py-16">
-        <div className="section-container text-center text-primary-foreground">
-          <h1 className="font-display text-4xl md:text-5xl font-bold mb-4">
-            Consult a Doctor or Volunteer
+      {/* Hero */}
+      <section className="mayo-hero py-20">
+        <div className="section-container">
+          <h1 className="font-serif text-4xl md:text-5xl text-white mb-4 italic">
+            For Medical Professionals
           </h1>
-          <p className="text-lg opacity-90 max-w-2xl mx-auto">
+          <p className="text-white/80 text-lg max-w-2xl mb-8">
             Get healthcare guidance through AI, connect with medical volunteers, or schedule a video consultation with a doctor.
           </p>
+          <Button 
+            variant="outline" 
+            className="border-white text-white hover:bg-white hover:text-primary bg-transparent"
+          >
+            Request appointment
+          </Button>
         </div>
       </section>
 
       {/* Consultation Options */}
-      <section className="py-12 bg-background">
+      <section className="py-16 bg-background">
         <div className="section-container">
-          <div className="grid md:grid-cols-3 gap-6 mb-12">
-            <div className="feature-card text-center">
-              <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-primary text-primary-foreground flex items-center justify-center">
-                <Bot className="h-8 w-8" />
-              </div>
-              <h3 className="font-display font-semibold text-lg mb-2">AI Health Assistant</h3>
-              <p className="text-muted-foreground text-sm mb-4">
-                Get instant guidance on symptoms with our AI-powered chatbot
-              </p>
-              <Button variant="soft" className="w-full" onClick={() => document.getElementById('ai-chat')?.scrollIntoView({ behavior: 'smooth' })}>
-                Start Chat
-              </Button>
-            </div>
-
-            <div className="feature-card text-center">
-              <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-success text-success-foreground flex items-center justify-center">
-                <Users className="h-8 w-8" />
-              </div>
-              <h3 className="font-display font-semibold text-lg mb-2">Volunteer Support</h3>
-              <p className="text-muted-foreground text-sm mb-4">
-                Connect with trained medical volunteers for personalized help
-              </p>
-              <Button variant="soft" className="w-full bg-success/10 text-success hover:bg-success/20">
-                Chat with Volunteer
-              </Button>
-            </div>
-
-            <div className="feature-card text-center">
-              <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-secondary text-secondary-foreground flex items-center justify-center">
-                <Video className="h-8 w-8" />
-              </div>
-              <h3 className="font-display font-semibold text-lg mb-2">Video Consultation</h3>
-              <p className="text-muted-foreground text-sm mb-4">
-                Schedule a secure video call with certified doctors
-              </p>
-              <Button variant="hero" className="w-full" onClick={() => document.getElementById('doctors')?.scrollIntoView({ behavior: 'smooth' })}>
-                Book Consultation
-              </Button>
-            </div>
+          <h2 className="font-serif text-2xl md:text-3xl text-foreground mb-8">
+            How can we help you?
+          </h2>
+          <div className="grid md:grid-cols-3 gap-6">
+            {consultOptions.map((option, index) => (
+              <a
+                key={option.title}
+                href={option.href}
+                className="group p-6 bg-card rounded-lg border border-border hover:border-secondary/30 transition-all animate-slide-up"
+                style={{ animationDelay: `${index * 0.1}s` }}
+              >
+                <div className="w-12 h-12 rounded-full border-2 border-secondary/60 text-secondary flex items-center justify-center mb-4 group-hover:bg-secondary group-hover:text-secondary-foreground transition-all">
+                  <option.icon className="h-6 w-6" />
+                </div>
+                <h3 className="font-serif text-xl mb-2">{option.title}</h3>
+                <p className="text-muted-foreground text-sm mb-4">{option.description}</p>
+                <span className="link-arrow text-sm">
+                  {option.action} <ChevronRight className="h-4 w-4" />
+                </span>
+              </a>
+            ))}
           </div>
         </div>
       </section>
 
       {/* AI Chat Section */}
-      <section id="ai-chat" className="py-12 bg-muted">
+      <section id="ai-chat" className="py-16 bg-muted">
         <div className="section-container">
           <div className="max-w-3xl mx-auto">
-            <div className="bg-card rounded-3xl border border-border shadow-lg overflow-hidden">
+            <h2 className="font-serif text-2xl md:text-3xl text-foreground mb-8 text-center">
+              AI Health Assistant
+            </h2>
+            <div className="bg-card rounded-lg border border-border overflow-hidden">
               {/* Chat Header */}
-              <div className="p-6 border-b border-border bg-primary text-primary-foreground">
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-full bg-primary-foreground/20 flex items-center justify-center">
-                    <Bot className="h-6 w-6" />
-                  </div>
-                  <div>
-                    <h3 className="font-display font-semibold">AI Health Assistant</h3>
-                    <p className="text-sm opacity-80">Powered by Gemini AI</p>
-                  </div>
-                  <div className="ml-auto flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-success animate-pulse" />
-                    <span className="text-sm">Online</span>
+              <div className="p-4 border-b border-border flex items-center gap-4">
+                <div className="w-10 h-10 rounded-full bg-secondary/10 text-secondary flex items-center justify-center">
+                  <Bot className="h-5 w-5" />
+                </div>
+                <div>
+                  <h3 className="font-medium">Health Assistant</h3>
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <span className="w-2 h-2 rounded-full bg-success" />
+                    Online
                   </div>
                 </div>
               </div>
 
               {/* Chat Messages */}
-              <div className="h-96 overflow-y-auto p-6 space-y-4">
+              <div className="h-80 overflow-y-auto p-6 space-y-4">
                 {messages.map((msg, index) => (
                   <div
                     key={index}
                     className={`flex gap-3 ${msg.role === 'user' ? 'flex-row-reverse' : ''}`}
                   >
                     <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${
-                      msg.role === 'user' ? 'bg-secondary text-secondary-foreground' : 'bg-primary text-primary-foreground'
+                      msg.role === 'user' ? 'bg-secondary text-secondary-foreground' : 'bg-muted text-muted-foreground'
                     }`}>
                       {msg.role === 'user' ? <User className="h-4 w-4" /> : <Bot className="h-4 w-4" />}
                     </div>
-                    <div className={`max-w-[80%] p-4 rounded-2xl ${
+                    <div className={`max-w-[80%] p-4 rounded-lg ${
                       msg.role === 'user' 
-                        ? 'bg-secondary text-secondary-foreground rounded-tr-none' 
-                        : 'bg-muted rounded-tl-none'
+                        ? 'bg-secondary text-secondary-foreground' 
+                        : 'bg-muted'
                     }`}>
                       <p className="text-sm">{msg.message}</p>
                     </div>
@@ -187,10 +196,10 @@ export default function Consult() {
                 ))}
                 {isTyping && (
                   <div className="flex gap-3">
-                    <div className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center">
+                    <div className="w-8 h-8 rounded-full bg-muted text-muted-foreground flex items-center justify-center">
                       <Bot className="h-4 w-4" />
                     </div>
-                    <div className="bg-muted p-4 rounded-2xl rounded-tl-none">
+                    <div className="bg-muted p-4 rounded-lg">
                       <div className="flex gap-1">
                         <span className="w-2 h-2 rounded-full bg-muted-foreground animate-bounce" />
                         <span className="w-2 h-2 rounded-full bg-muted-foreground animate-bounce" style={{ animationDelay: '0.1s' }} />
@@ -209,7 +218,7 @@ export default function Consult() {
                     value={inputMessage}
                     onChange={(e) => setInputMessage(e.target.value)}
                     placeholder="Describe your symptoms..."
-                    className="flex-1 h-12 px-4 rounded-xl bg-muted border border-border focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+                    className="flex-1 h-12 px-4 rounded-lg bg-muted border border-border focus:border-secondary focus:outline-none focus:ring-2 focus:ring-secondary/20"
                   />
                   <Button type="submit" size="lg">
                     <Send className="h-5 w-5" />
@@ -222,31 +231,35 @@ export default function Consult() {
       </section>
 
       {/* Available Doctors */}
-      <section id="doctors" className="py-12 bg-background">
+      <section id="doctors" className="py-16 bg-background">
         <div className="section-container">
           <div className="text-center mb-8">
-            <h2 className="font-display text-2xl md:text-3xl font-bold mb-2">Available Doctors</h2>
+            <h2 className="font-serif text-2xl md:text-3xl text-foreground mb-2">Available doctors</h2>
             <p className="text-muted-foreground">Book a video consultation with our certified healthcare professionals</p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-6">
-            {doctors.map((doctor) => (
-              <div key={doctor.id} className="bg-card rounded-2xl border border-border p-6 shadow-card hover:shadow-card-hover transition-all">
+            {doctors.map((doctor, index) => (
+              <div 
+                key={doctor.id} 
+                className="bg-card rounded-lg border border-border p-6 hover:border-secondary/30 transition-all animate-slide-up"
+                style={{ animationDelay: `${index * 0.1}s` }}
+              >
                 <div className="flex items-center gap-4 mb-4">
                   <img
                     src={doctor.image}
                     alt={doctor.name}
-                    className="w-16 h-16 rounded-full object-cover border-2 border-primary"
+                    className="w-16 h-16 rounded-full object-cover border-2 border-secondary/30"
                   />
                   <div>
-                    <h3 className="font-display font-semibold">{doctor.name}</h3>
+                    <h3 className="font-serif text-lg">{doctor.name}</h3>
                     <p className="text-sm text-muted-foreground">{doctor.specialty}</p>
                   </div>
                 </div>
 
                 <div className="space-y-2 mb-4">
                   <div className="flex items-center gap-2 text-sm">
-                    <Stethoscope className="h-4 w-4 text-primary" />
+                    <Stethoscope className="h-4 w-4 text-secondary" />
                     <span>{doctor.experience} experience</span>
                   </div>
                   <div className="flex items-center gap-2 text-sm">
@@ -256,7 +269,7 @@ export default function Consult() {
                   <div className="flex items-center gap-2 text-sm">
                     <Clock className="h-4 w-4 text-muted-foreground" />
                     <span className={doctor.available ? 'text-success' : 'text-muted-foreground'}>
-                      {doctor.available ? 'Available Now' : 'Next available: Tomorrow'}
+                      {doctor.available ? 'Available now' : 'Next available: Tomorrow'}
                     </span>
                   </div>
                 </div>
@@ -267,7 +280,7 @@ export default function Consult() {
                   disabled={!doctor.available}
                 >
                   <Video className="h-4 w-4" />
-                  {doctor.available ? 'Start Consultation' : 'Schedule'}
+                  {doctor.available ? 'Start consultation' : 'Schedule'}
                 </Button>
               </div>
             ))}
@@ -276,29 +289,29 @@ export default function Consult() {
       </section>
 
       {/* Emergency Section */}
-      <section className="py-12 bg-destructive-light">
+      <section className="py-16 bg-destructive/5">
         <div className="section-container">
-          <div className="bg-card rounded-3xl p-8 border-2 border-destructive shadow-lg">
+          <div className="bg-card rounded-lg p-8 border border-destructive/20">
             <div className="flex flex-col md:flex-row items-center gap-8">
-              <div className="w-20 h-20 rounded-full bg-destructive text-destructive-foreground flex items-center justify-center shrink-0 animate-pulse">
-                <AlertTriangle className="h-10 w-10" />
+              <div className="w-16 h-16 rounded-full bg-destructive/10 text-destructive flex items-center justify-center shrink-0">
+                <AlertTriangle className="h-8 w-8" />
               </div>
               <div className="flex-1 text-center md:text-left">
-                <h2 className="font-display text-2xl font-bold text-destructive mb-2">
-                  Emergency Assistance
+                <h2 className="font-serif text-2xl text-destructive mb-2">
+                  Emergency assistance
                 </h2>
                 <p className="text-muted-foreground mb-4">
-                  If your symptoms are severe or life-threatening, please seek immediate medical attention. We can help you locate the nearest emergency facility.
+                  If your symptoms are severe or life-threatening, please seek immediate medical attention.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-3 justify-center md:justify-start">
-                  <Button variant="emergency" size="lg" className="gap-2">
+                  <Button variant="destructive" size="lg" className="gap-2">
                     <Phone className="h-5 w-5" />
                     Call Emergency: 108
                   </Button>
-                  <Button variant="outline" size="lg" className="gap-2 border-destructive text-destructive hover:bg-destructive hover:text-destructive-foreground" asChild>
+                  <Button variant="outline" size="lg" className="gap-2 border-destructive/30 text-destructive hover:bg-destructive hover:text-destructive-foreground" asChild>
                     <Link to="/find-healthcare">
                       <MapPin className="h-5 w-5" />
-                      Find Nearest Hospital
+                      Find nearest hospital
                     </Link>
                   </Button>
                 </div>
