@@ -21,11 +21,6 @@ const navLinks = [
     hasDropdown: true 
   },
   { 
-    href: '/about', 
-    label: 'Research & Education',
-    hasDropdown: true 
-  },
-  { 
     href: '/contact', 
     label: 'Giving to HealthConnect',
     hasDropdown: true 
